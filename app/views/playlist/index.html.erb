@@ -1,18 +1,30 @@
-<h1> <%= @playlist.name %> </h1>
+<div class="container">
+  <h1> <%= @playlist.name %> </h1>
 
-<table>
-  <thead>
-    <th> Song </th>
-    <th> Artist </th>
-    <th> Submitter </th>
-    <th> Location </th>
-  </thead>
-  <%- @playlist.playlist_items.each do |item| %>
-    <tr>
-      <td><%= item.song_name %></td>
-      <td><%= item.artist %></td>
-      <td><%= item.submitted_by %></td>
-      <td><%= item.submitter_location %></td>
-    </tr>
-  <% end %>
-</table>
+  <table id="playlistTable">
+    <thead>
+      <th> # </th>
+      <th> Song </th>
+      <th> Artist </th>
+      <th> Submitter </th>
+      <th> Location </th>
+    </thead>
+    <%- @playlist.playlist_items.order(:created_at).each_with_index do |item, index| %>
+      <tr>
+        <td><%= index +1 %></td>
+        <td><%= item.song_name %></td>
+        <td><%= item.artist %></td>
+        <td><%= item.submitted_by %></td>
+        <td><%= item.submitter_location %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#playlistTable').DataTable({
+      "dom": '<rtflp>'
+    });
+  });
+</script>
